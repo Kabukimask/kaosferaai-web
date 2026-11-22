@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Conectando · Kaosfera</title><meta name="robots" content="noindex"><link rel="icon" href="/assets/favicon.png"><link rel="stylesheet" href="/assets/estilo.css"></head>
+<body><div class="telon"></div><main>
+<header><img src="/assets/icono-192.png" alt=""><a href="/">KAOSFERA</a></header>
+<h1 id="t">Conectando tu cuenta…</h1>
+<p id="m">Un momento.</p>
+</main>
+<script>
+// Página de retorno del inicio de sesión de TikTok. No guarda ni envía nada a terceros.
+(function () {
+  var q = new URLSearchParams(location.search);
+  var t = document.getElementById("t"), m = document.getElementById("m");
+  if (q.get("error")) { t.textContent = "No se completó la conexión"; m.textContent = "TikTok devolvió: " + (q.get("error_description") || q.get("error")) + ". Puedes cerrar esta ventana e intentarlo de nuevo."; return; }
+  if (q.get("code")) { t.textContent = "Cuenta autorizada"; m.textContent = "Kaosfera recibió tu autorización. Puedes volver a la app."; return; }
+  t.textContent = "Página de retorno de Kaosfera"; m.textContent = "Esta página se usa al conectar una cuenta de TikTok.";
+})();
+</script>
+</body></html>
