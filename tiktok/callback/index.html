@@ -7,13 +7,21 @@
 <p id="m">Un momento.</p>
 </main>
 <script>
-// Página de retorno del inicio de sesión de TikTok. No guarda ni envía nada a terceros.
-(function () {
-  var q = new URLSearchParams(location.search);
-  var t = document.getElementById("t"), m = document.getElementById("m");
-  if (q.get("error")) { t.textContent = "No se completó la conexión"; m.textContent = "TikTok devolvió: " + (q.get("error_description") || q.get("error")) + ". Puedes cerrar esta ventana e intentarlo de nuevo."; return; }
-  if (q.get("code")) { t.textContent = "Cuenta autorizada"; m.textContent = "Kaosfera recibió tu autorización. Puedes volver a la app."; return; }
-  t.textContent = "Página de retorno de Kaosfera"; m.textContent = "Esta página se usa al conectar una cuenta de TikTok.";
+// Retorno del inicio de sesión de TikTok: entrega el código al servidor de Kaosfera y abre la pantalla de publicación.
+(async function () {
+  var API = "https://kaosfera-api.somoskaosfera.workers.dev";
+  var q = new URLSearchParams(location.search), t = document.getElementById("t"), m = document.getElementById("m");
+  history.replaceState(null, "", location.pathname); // no dejar el código en el historial
+  if (q.get("error")) { t.textContent = "No se completó la conexión"; m.textContent = "TikTok: " + (q.get("error_description") || q.get("error")); return; }
+  if (!q.get("code")) { t.textContent = "Página de retorno de Kaosfera"; m.textContent = "Se usa al conectar una cuenta de TikTok."; return; }
+  try {
+    var r = await fetch(API + "/tiktok/token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: q.get("code"), state: q.get("state") }) });
+    var d = await r.json();
+    if (!d.ok) throw new Error(d.mensaje || d.error);
+    try { localStorage.setItem("kf_sesion", d.sesion); } catch (e) {}
+    t.textContent = "Cuenta conectada"; m.textContent = "Abriendo la pantalla de publicación…";
+    location.replace("/publicar/");
+  } catch (e) { t.textContent = "No se completó la conexión"; m.textContent = e.message; }
 })();
 </script>
 </body></html>

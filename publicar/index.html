@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Publicar · Kaosfera</title><meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.png"><link rel="stylesheet" href="/assets/estilo.css">
+<style>
+.caja{background:var(--panel);padding:16px 18px;margin:14px 0;border-radius:4px}
+.cuenta{display:flex;align-items:center;gap:12px}
+.cuenta img{width:48px;height:48px;border-radius:50%;background:#2a2430}
+.btn{display:inline-block;border:0;cursor:pointer;font:800 16px "Archivo Black","Arial Black",sans-serif;padding:14px 22px;background:var(--rojo);color:#fff;text-decoration:none}
+.btn.sec{background:#2a2430;color:var(--hoja);font-size:13px;padding:8px 12px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+label{display:block;font-weight:600;margin:14px 0 6px}
+select,textarea{width:100%;background:#0e0c12;color:var(--hoja);border:1px solid #3a3242;padding:10px;font-size:16px;line-height:1.4;font-family:inherit;border-radius:4px}
+textarea{min-height:110px}
+.fila{display:flex;align-items:center;gap:10px;margin:8px 0;font-weight:400}
+.fila input{width:20px;height:20px;accent-color:var(--rojo)}
+.nota{font-size:14px;color:var(--tenue)}
+.error{color:#ff8a7a}
+video{width:100%;max-width:300px;aspect-ratio:9/16;background:#000;border-radius:6px;display:block}
+.cont{font-size:13px;color:var(--tenue);text-align:right}
+.idioma{float:right;font-size:14px}
+</style></head>
+<body><div class="telon"></div><main>
+<header><img src="/assets/icono-192.png" alt=""><a href="/">KAOSFERA</a></header>
+<nav><a href="#" id="lang-es">Español</a><a href="#" id="lang-en">English</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav>
+<h1 data-t="titulo">Publicar en TikTok</h1>
+
+<div class="caja" id="paso-conectar" hidden>
+  <p data-t="conectar_txt">Conecta tu cuenta de TikTok para publicar los vídeos de Kaosfera en tu perfil.</p>
+  <p><a class="btn" id="btn-conectar" href="#" data-t="conectar">Conectar con TikTok</a></p>
+</div>
+
+<div id="paso-publicar" hidden>
+  <div class="caja cuenta">
+    <img id="avatar" alt="">
+    <div><div class="nota" data-t="publicaras">Publicarás en la cuenta</div><b id="nombre"></b></div>
+    <button class="btn sec" id="btn-salir" style="margin-left:auto" data-t="desconectar">Desconectar</button>
+  </div>
+
+  <div class="caja">
+    <label for="video" data-t="video">Vídeo</label>
+    <select id="video"></select>
+    <p style="margin-top:12px"><video id="vista" controls playsinline preload="metadata"></video></p>
+    <p class="nota error" id="aviso-duracion" hidden></p>
+
+    <label for="titulo" data-t="pie">Título y descripción</label>
+    <textarea id="titulo" maxlength="2200"></textarea>
+    <div class="cont"><span id="cuenta-car">0</span> / 2200</div>
+
+    <label for="privacidad" data-t="privacidad">¿Quién puede ver este vídeo?</label>
+    <select id="privacidad"><option value="" data-t="elige">Elige una opción…</option></select>
+
+    <label data-t="permitir">Permitir a los usuarios</label>
+    <div class="fila"><input type="checkbox" id="p-coment"><span data-t="comentar">Comentar</span></div>
+    <div class="fila"><input type="checkbox" id="p-duo"><span data-t="duo">Dúo</span></div>
+    <div class="fila"><input type="checkbox" id="p-stitch"><span data-t="stitch">Stitch</span></div>
+
+    <label data-t="divulgar">Divulgación de contenido</label>
+    <div class="fila"><input type="checkbox" id="d-comercial"><span data-t="comercial">Este vídeo promociona una marca, producto o servicio</span></div>
+    <div id="d-opciones" hidden style="padding-left:30px">
+      <div class="fila"><input type="checkbox" id="d-propia"><span data-t="propia">Tu marca</span></div>
+      <div class="fila"><input type="checkbox" id="d-tercero"><span data-t="tercero">Contenido de marca (de un tercero)</span></div>
+      <p class="nota" id="d-etiqueta"></p>
+    </div>
+    <div class="fila"><input type="checkbox" id="d-ia" checked><span data-t="ia">Contenido generado con IA (voz sintética)</span></div>
+
+    <p class="nota" id="consentimiento"></p>
+    <p><button class="btn" id="btn-publicar" disabled data-t="publicar">Publicar</button></p>
+    <p id="resultado" class="nota"></p>
+  </div>
+</div>
+<p class="nota error" id="error-general"></p>
+</main>
+<footer>© 2026 Kaosfera · <a href="/terms.html">Terms of Service</a> · <a href="/privacy.html">Privacy Policy</a></footer>
+<script src="/assets/publicar.js"></script>
+</body></html>
