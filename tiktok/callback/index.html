@@ -11,6 +11,8 @@
 (async function () {
   var API = "https://kaosfera-api.somoskaosfera.workers.dev";
   var q = new URLSearchParams(location.search), t = document.getElementById("t"), m = document.getElementById("m");
+  var en = (function () { try { return localStorage.getItem("kf_lang") === "en"; } catch (e) { return false; } })();
+  if (en) { t.textContent = "Connecting your account…"; m.textContent = "One moment."; }
   history.replaceState(null, "", location.pathname); // no dejar el código en el historial
   if (q.get("error")) { t.textContent = "No se completó la conexión"; m.textContent = "TikTok: " + (q.get("error_description") || q.get("error")); return; }
   if (!q.get("code")) { t.textContent = "Página de retorno de Kaosfera"; m.textContent = "Se usa al conectar una cuenta de TikTok."; return; }
@@ -19,9 +21,9 @@
     var d = await r.json();
     if (!d.ok) throw new Error(d.mensaje || d.error);
     try { localStorage.setItem("kf_sesion", d.sesion); } catch (e) {}
-    t.textContent = "Cuenta conectada"; m.textContent = "Abriendo la pantalla de publicación…";
+    t.textContent = en ? "Account connected" : "Cuenta conectada"; m.textContent = en ? "Opening the posting page…" : "Abriendo la pantalla de publicación…";
     location.replace("/publicar/");
-  } catch (e) { t.textContent = "No se completó la conexión"; m.textContent = e.message; }
+  } catch (e) { t.textContent = en ? "Connection failed" : "No se completó la conexión"; m.textContent = e.message; }
 })();
 </script>
 </body></html>
