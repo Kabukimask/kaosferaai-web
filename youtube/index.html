@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es" translate="no"><head><meta charset="utf-8"><meta name="google" content="notranslate"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>YouTube · Kaosfera</title><meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.png"><link rel="stylesheet" href="/assets/estilo.css">
+<style>
+.caja{background:var(--panel);padding:16px 18px;margin:14px 0;border-radius:4px}
+.cuenta{display:flex;align-items:center;gap:12px}.cuenta img{width:48px;height:48px;border-radius:50%;background:#2a2430}
+.btn{display:inline-block;border:0;cursor:pointer;font:800 16px "Archivo Black","Arial Black",sans-serif;padding:14px 22px;background:var(--rojo);color:#fff;text-decoration:none}
+.btn.sec{background:#2a2430;color:var(--hoja);font-size:13px;padding:8px 12px}.btn:disabled{opacity:.45;cursor:not-allowed}
+label{display:block;font-weight:600;margin:14px 0 6px}
+select,textarea,input[type=text]{width:100%;background:#0e0c12;color:var(--hoja);border:1px solid #3a3242;padding:10px;font-size:16px;line-height:1.4;font-family:inherit;border-radius:4px}
+textarea{min-height:110px}.fila{display:flex;align-items:center;gap:10px;margin:8px 0}.fila input{width:20px;height:20px;accent-color:var(--rojo)}
+.nota{font-size:14px;color:var(--tenue)}.error{color:#ff8a7a}video{width:100%;max-width:300px;aspect-ratio:9/16;background:#000;border-radius:6px;display:block}
+</style></head>
+<body><div class="telon"></div><main>
+<header><img src="/assets/icono-192.png" alt=""><a href="/">KAOSFERA</a></header>
+<nav><a href="/publicar/">TikTok</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav>
+<h1>Publicar en YouTube Shorts</h1>
+<div class="caja" id="paso-conectar" hidden><p>Conecta tu canal de YouTube para subir los Shorts de Kaosfera.</p>
+  <p><a class="btn" href="https://kaosfera-api.somoskaosfera.workers.dev/youtube/login">Conectar con Google</a></p></div>
+<div id="paso-publicar" hidden>
+  <div class="caja cuenta"><img id="avatar" alt=""><div><div class="nota">Subirás al canal</div><b id="nombre"></b></div>
+    <button class="btn sec" id="btn-salir" style="margin-left:auto">Desconectar</button></div>
+  <div class="caja">
+    <label for="video">Vídeo</label><select id="video"></select>
+    <p style="margin-top:12px"><video id="vista" controls playsinline preload="metadata"></video></p>
+    <label for="titulo">Título (máx. 100)</label><input type="text" id="titulo" maxlength="100">
+    <label for="desc">Descripción</label><textarea id="desc" maxlength="5000"></textarea>
+    <label for="priv">Visibilidad</label>
+    <select id="priv"><option value="">Elige…</option><option value="private">Privado</option><option value="unlisted">Oculto</option><option value="public">Público</option></select>
+    <div class="fila"><input type="checkbox" id="sint" checked><span>Contenido alterado o sintético (voz generada con IA)</span></div>
+    <p class="nota">Los vídeos son para público general, no "hechos para niños".</p>
+    <p><button class="btn" id="btn-pub" disabled>Subir a YouTube</button></p>
+    <p id="res" class="nota"></p>
+  </div>
+</div>
+<p class="nota error" id="err"></p>
+</main>
+<script>
+(function () {
+  var API = "https://kaosfera-api.somoskaosfera.workers.dev", $ = function (i) { return document.getElementById(i); };
+  var ses = null; try { ses = localStorage.getItem("kf_yt_sesion"); } catch (e) {}
+  var videos = [];
+  function api(r, c) { return fetch(API + r, { method: c ? "POST" : "GET", headers: { "Content-Type": "application/json", Authorization: "Bearer " + ses }, body: c ? JSON.stringify(c) : undefined })
+    .then(function (x) { return x.json().then(function (d) { if (x.status === 401) salir(); if (!d.ok) throw new Error(d.mensaje || d.error); return d; }); }); }
+  function salir() { try { localStorage.removeItem("kf_yt_sesion"); } catch (e) {} ses = null; $("paso-publicar").hidden = true; $("paso-conectar").hidden = false; }
+  $("btn-salir").onclick = function () { api("/youtube/desconectar", {}).catch(function () {}); salir(); };
+  function validar() { $("btn-pub").disabled = !$("priv").value || !$("titulo").value.trim(); }
+  ["priv", "titulo"].forEach(function (i) { $(i).addEventListener("input", validar); $(i).addEventListener("change", validar); });
+  function elegir() { var v = videos.find(function (x) { return x.id === $("video").value; }); if (!v) return;
+    $("vista").src = v.file; $("titulo").value = (v.yt_title || v.title.split("#")[0]).slice(0, 100).trim();
+    $("desc").value = v.yt_desc || v.title; validar(); }
+  $("video").onchange = elegir;
+  $("btn-pub").onclick = function () {
+    var v = videos.find(function (x) { return x.id === $("video").value; });
+    $("btn-pub").disabled = true; $("res").textContent = "Subiendo a YouTube… (puede tardar un minuto)";
+    api("/youtube/publicar", { video_url: v.file, titulo: $("titulo").value, descripcion: $("desc").value, privacidad: $("priv").value,
+      sintetico: $("sint").checked, idioma: v.lang, etiquetas: v.tags || [], consentimiento: true })
+      .then(function (d) { $("res").innerHTML = 'Subido (' + d.privacidad + '): <a target="_blank" rel="noopener"></a>'; $("res").querySelector("a").href = d.url; $("res").querySelector("a").textContent = d.url; })
+      .catch(function (e) { $("res").innerHTML = '<span class="error"></span>'; $("res").firstChild.textContent = e.message; validar(); });
+  };
+  if (!ses) { $("paso-conectar").hidden = false; return; }
+  Promise.all([api("/youtube/canal"), fetch("/videos/videos.json").then(function (r) { return r.json(); })]).then(function (r) {
+    var c = r[0].canal; videos = r[1];
+    $("avatar").src = c.avatar || "/assets/icono-192.png"; $("nombre").textContent = c.titulo || "";
+    $("video").innerHTML = videos.map(function (v) { return '<option value="' + v.id + '">' + v.id + ' (' + v.lang.toUpperCase() + ')</option>'; }).join("");
+    $("paso-publicar").hidden = false; elegir();
+  }).catch(function (e) { $("err").textContent = e.message; });
+})();
+</script>
+</body></html>

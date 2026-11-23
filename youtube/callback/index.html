@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es" translate="no"><head><meta charset="utf-8"><meta name="google" content="notranslate"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Conectando · Kaosfera</title><meta name="robots" content="noindex"><link rel="icon" href="/assets/favicon.png"><link rel="stylesheet" href="/assets/estilo.css"></head>
+<body><div class="telon"></div><main>
+<header><img src="/assets/icono-192.png" alt=""><a href="/">KAOSFERA</a></header>
+<h1 id="t">Conectando tu cuenta…</h1>
+<p id="m">Un momento.</p>
+</main>
+<script>
+// Retorno del inicio de sesión de Google: entrega el código al servidor de Kaosfera y abre la pantalla de publicación.
+(async function () {
+  var API = "https://kaosfera-api.somoskaosfera.workers.dev";
+  var q = new URLSearchParams(location.search), t = document.getElementById("t"), m = document.getElementById("m");
+  var en = (function () { try { return localStorage.getItem("kf_lang") === "en"; } catch (e) { return false; } })();
+  if (en) { t.textContent = "Connecting your account…"; m.textContent = "One moment."; }
+  history.replaceState(null, "", location.pathname); // no dejar el código en el historial
+  if (q.get("error")) { t.textContent = "No se completó la conexión"; m.textContent = "Google: " + (q.get("error_description") || q.get("error")); return; }
+  if (!q.get("code")) { t.textContent = "Página de retorno de Kaosfera"; m.textContent = "Se usa al conectar un canal de YouTube."; return; }
+  try {
+    var r = await fetch(API + "/youtube/token", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: q.get("code"), state: q.get("state") }) });
+    var d = await r.json();
+    if (!d.ok) throw new Error(d.mensaje || d.error);
+    try { localStorage.setItem("kf_yt_sesion", d.sesion); } catch (e) {}
+    t.textContent = en ? "Account connected" : "Cuenta conectada"; m.textContent = en ? "Opening the posting page…" : "Abriendo la pantalla de publicación…";
+    location.replace("/youtube/");
+  } catch (e) { t.textContent = en ? "Connection failed" : "No se completó la conexión"; m.textContent = e.message; }
+})();
+</script>
+</body></html>
