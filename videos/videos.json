@@ -19,5 +19,89 @@
   "file": "/videos/zurdos-es-compat.mp4",
   "duration": 43.6,
   "title": "Si eres zurdo, hace 100 años te habrían atado la mano izquierda en el colegio ✋ ¿Sabías por qué? #curiosidades #zurdos #historia #sabiasque"
+ },
+ {
+  "id": "nariz-es",
+  "lang": "es",
+  "file": "/videos/nariz-es.mp4",
+  "duration": 37.5,
+  "title": "Tu nariz está delante de tus ojos todo el día… ¿por qué no la ves? 👃 #curiosidades #cerebro #sabiasque #ciencia",
+  "yt_title": "¿Por qué no ves tu nariz?",
+  "yt_desc": "Tu cerebro filtra tu nariz. Fuente: Live Science.\n\nTu nariz está delante de tus ojos todo el día… ¿por qué no la ves? 👃 #curiosidades #cerebro #sabiasque #ciencia",
+  "tags": [
+   "curiosidades",
+   "cerebro",
+   "ciencia"
+  ]
+ },
+ {
+  "id": "nariz-en",
+  "lang": "en",
+  "file": "/videos/nariz-en.mp4",
+  "duration": 35.8,
+  "title": "Your nose is in front of your eyes all day… so why can't you see it? 👃 #funfacts #brain #didyouknow #science",
+  "yt_title": "Why can't you see your own nose?",
+  "yt_desc": "Your brain filters it out. Source: Live Science.\n\nYour nose is in front of your eyes all day… so why can't you see it? 👃 #funfacts #brain #didyouknow #science",
+  "tags": [
+   "fun facts",
+   "brain",
+   "science"
+  ]
+ },
+ {
+  "id": "cleopatra-es",
+  "lang": "es",
+  "file": "/videos/cleopatra-es.mp4",
+  "duration": 41.9,
+  "title": "Cleopatra vivió más cerca de ti que de las pirámides 👑🔺 #historia #curiosidades #egipto #sabiasque",
+  "yt_title": "Cleopatra vivió más cerca de ti que de las pirámides",
+  "yt_desc": "Pirámide ≈2560 a.C., Cleopatra 30 a.C. Fuentes: WorldAtlas, IFLScience.\n\nCleopatra vivió más cerca de ti que de las pirámides 👑🔺 #historia #curiosidades #egipto #sabiasque",
+  "tags": [
+   "historia",
+   "egipto",
+   "curiosidades"
+  ]
+ },
+ {
+  "id": "cleopatra-en",
+  "lang": "en",
+  "file": "/videos/cleopatra-en.mp4",
+  "duration": 41.0,
+  "title": "Cleopatra lived closer to you than to the pyramids 👑🔺 #history #funfacts #egypt #didyouknow",
+  "yt_title": "Cleopatra lived closer to you than to the pyramids",
+  "yt_desc": "Pyramid ≈2560 BC, Cleopatra 30 BC. Sources: WorldAtlas, IFLScience.\n\nCleopatra lived closer to you than to the pyramids 👑🔺 #history #funfacts #egypt #didyouknow",
+  "tags": [
+   "history",
+   "egypt",
+   "fun facts"
+  ]
+ },
+ {
+  "id": "pulpo-es",
+  "lang": "es",
+  "file": "/videos/pulpo-es.mp4",
+  "duration": 32.8,
+  "title": "Tú tienes un corazón. Un pulpo tiene tres 🐙❤️❤️❤️ #animales #curiosidades #pulpo #sabiasque",
+  "yt_title": "Un pulpo tiene tres corazones",
+  "yt_desc": "Y uno se para cuando nada. Fuentes: Live Science, Smithsonian.\n\nTú tienes un corazón. Un pulpo tiene tres 🐙❤️❤️❤️ #animales #curiosidades #pulpo #sabiasque",
+  "tags": [
+   "animales",
+   "pulpo",
+   "curiosidades"
+  ]
+ },
+ {
+  "id": "pulpo-en",
+  "lang": "en",
+  "file": "/videos/pulpo-en.mp4",
+  "duration": 31.0,
+  "title": "You have one heart. An octopus has three 🐙❤️❤️❤️ #animals #funfacts #octopus #didyouknow",
+  "yt_title": "An octopus has three hearts",
+  "yt_desc": "And one stops when it swims. Sources: Live Science, Smithsonian.\n\nYou have one heart. An octopus has three 🐙❤️❤️❤️ #animals #funfacts #octopus #didyouknow",
+  "tags": [
+   "animals",
+   "octopus",
+   "fun facts"
+  ]
  }
 ]
