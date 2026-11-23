@@ -43,7 +43,7 @@
   let creador = null, videos = [], duracion = 0;
 
   function traducir() {
-    document.documentElement.lang = idioma;
+    document.documentElement.lang = idioma; document.documentElement.setAttribute("translate", "no");
     document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
     pintarPrivacidad(); validar();
   }
