@@ -1,6 +1,23 @@
 [
-  {"id": "zurdos-es", "lang": "es", "file": "/videos/zurdos-es.mp4", "duration": 43.6,
-   "title": "Si eres zurdo, hace 100 años te habrían atado la mano izquierda en el colegio ✋ ¿Sabías por qué? #curiosidades #zurdos #historia #sabiasque"},
-  {"id": "zurdos-en", "lang": "en", "file": "/videos/zurdos-en.mp4", "duration": 41.7,
-   "title": "If you're left-handed, 100 years ago your teacher might have tied your left hand down ✋ Do you know why? #funfacts #lefthanded #history #didyouknow"}
+ {
+  "id": "zurdos-es",
+  "lang": "es",
+  "file": "/videos/zurdos-es.mp4",
+  "duration": 43.6,
+  "title": "Si eres zurdo, hace 100 años te habrían atado la mano izquierda en el colegio ✋ ¿Sabías por qué? #curiosidades #zurdos #historia #sabiasque"
+ },
+ {
+  "id": "zurdos-en",
+  "lang": "en",
+  "file": "/videos/zurdos-en.mp4",
+  "duration": 41.7,
+  "title": "If you're left-handed, 100 years ago your teacher might have tied your left hand down ✋ Do you know why? #funfacts #lefthanded #history #didyouknow"
+ },
+ {
+  "id": "zurdos-es-compat",
+  "lang": "es",
+  "file": "/videos/zurdos-es-compat.mp4",
+  "duration": 43.6,
+  "title": "Si eres zurdo, hace 100 años te habrían atado la mano izquierda en el colegio ✋ ¿Sabías por qué? #curiosidades #zurdos #historia #sabiasque"
+ }
 ]
