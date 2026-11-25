@@ -33,6 +33,15 @@ textarea{min-height:110px}.fila{display:flex;align-items:center;gap:10px;margin:
     <p><button class="btn" id="btn-pub" disabled>Subir a YouTube</button></p>
     <p id="res" class="nota"></p>
   </div>
+  <div class="caja">
+    <label>Clave del agente (publicación automática)</label>
+    <p class="nota">Permite que los agentes de Kaosfera programen los vídeos de este canal a sus horas sin abrir esta página. Se muestra una sola vez: cópiala y pégala en el formulario seguro de Claude. Generar una nueva anula la anterior.</p>
+    <p><button class="btn sec" id="btn-clave">Generar clave del agente</button></p>
+    <div id="caja-clave" hidden>
+      <input type="text" id="clave" readonly style="font-family:monospace;font-size:13px">
+      <p><button class="btn" id="btn-copiar">Copiar clave</button> <span id="copiada" class="nota"></span></p>
+    </div>
+  </div>
 </div>
 <p class="nota error" id="err"></p>
 </main>
@@ -58,6 +67,16 @@ textarea{min-height:110px}.fila{display:flex;align-items:center;gap:10px;margin:
       sintetico: $("sint").checked, idioma: v.lang, etiquetas: v.tags || [], consentimiento: true })
       .then(function (d) { $("res").innerHTML = 'Subido (' + d.privacidad + '): <a target="_blank" rel="noopener"></a>'; $("res").querySelector("a").href = d.url; $("res").querySelector("a").textContent = d.url; })
       .catch(function (e) { $("res").innerHTML = '<span class="error"></span>'; $("res").firstChild.textContent = e.message; validar(); });
+  };
+  $("btn-clave").onclick = function () {
+    if (!confirm("¿Generar una clave nueva? La anterior dejará de funcionar.")) return;
+    $("btn-clave").disabled = true;
+    api("/youtube/agente-clave", {}).then(function (d) { $("clave").value = d.clave; $("caja-clave").hidden = false; $("copiada").textContent = ""; })
+      .catch(function (e) { $("err").textContent = e.message; }).then(function () { $("btn-clave").disabled = false; });
+  };
+  $("btn-copiar").onclick = function () {
+    var v = $("clave").value; (navigator.clipboard ? navigator.clipboard.writeText(v) : Promise.reject()).then(function () { $("copiada").textContent = "Copiada ✓"; })
+      .catch(function () { $("clave").select(); $("copiada").textContent = "Mantén pulsado y elige Copiar"; });
   };
   if (!ses) { $("paso-conectar").hidden = false; return; }
   Promise.all([api("/youtube/canal"), fetch("/videos/videos.json").then(function (r) { return r.json(); })]).then(function (r) {
